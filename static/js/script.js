@@ -1,44 +1,59 @@
-fetch("/api/products")
-.then(response => response.json())
-.then(products => {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    let output = "";
+        console.log(
+            "ShopSphere loaded successfully"
+        );
 
-    products.forEach(product => {
+        const alerts =
+            document.querySelectorAll(
+                ".alert"
+            );
 
-        output += `
-            <div class="product">
-                <h3>${product.name}</h3>
+        alerts.forEach(function (alert) {
 
-                <p>${product.description}</p>
+            setTimeout(function () {
 
-                <b>₹${product.price}</b>
+                alert.style.opacity = "0";
 
-                <br><br>
+                setTimeout(function () {
+                    alert.remove();
+                }, 500);
 
-                <button onclick="addCart(${product.id})">
-                    Add to Cart
-                </button>
-            </div>
-        `;
-    });
+            }, 3000);
 
-    document.getElementById("products").innerHTML = output;
-});
+        });
+
+    }
+);
 
 
-function addCart(id) {
+/*
+    REST API example
+*/
 
-    let cart = JSON.parse(
-        localStorage.getItem("cart")
-    ) || [];
+async function loadProducts() {
 
-    cart.push(id);
+    try {
 
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
+        const response =
+            await fetch("/api/products");
 
-    alert("Product added to cart");
+        const products =
+            await response.json();
+
+        console.log(
+            "Products from REST API:",
+            products
+        );
+
+    } catch (error) {
+
+        console.error(
+            "API Error:",
+            error
+        );
+
+    }
 }

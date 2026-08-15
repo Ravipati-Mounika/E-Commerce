@@ -1,17 +1,72 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Orders</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block content %}
 
-<h1>My Orders</h1>
+<section class="section">
 
-<p>No orders yet.</p>
+    <h1>My Orders</h1>
 
-<a href="/products">Shop Products</a>
+    {% if orders %}
 
-</body>
-</html>
+    <div class="orders">
+
+        {% for order in orders %}
+
+        <div class="order-card">
+
+            <div>
+
+                <small>
+                    Order #{{ order.id }}
+                </small>
+
+                <h3>
+                    ₹{{ "%.2f"|format(order.total) }}
+                </h3>
+
+                <p>
+                    {{ order.payment_method }}
+                </p>
+
+            </div>
+
+            <div>
+
+                <span class="status">
+                    {{ order.status }}
+                </span>
+
+                <p>
+                    {{ order.created_at.strftime(
+                        "%d %b %Y, %I:%M %p"
+                    ) }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+
+        <h2>No orders yet.</h2>
+
+        <a
+            class="btn"
+            href="{{ url_for('products.product_list') }}"
+        >
+            Shop Now
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

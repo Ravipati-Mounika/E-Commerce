@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="section">
+
+    <h1>Checkout</h1>
+
+    <div class="checkout">
+
+        <div class="checkout-card">
+
+            <h2>Payment Method</h2>
+
+            <form
+                method="POST"
+                action="{{ url_for('orders.place_order') }}"
+            >
+
+                <label class="payment">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="Cash on Delivery"
+                        checked
+                    >
+
+                    <span>
+                        💵 Cash on Delivery
+                    </span>
+
+                </label>
+
+
+                <label class="payment">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="Demo Payment"
+                    >
+
+                    <span>
+                        💳 Demo Online Payment
+                    </span>
+
+                </label>
+
+
+                <button class="btn full">
+                    Place Order
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="summary">
+
+            <h2>Order Total</h2>
+
+            {% for item in cart_items %}
+
+            <div class="summary-row">
+
+                <span>
+                    {{ item.product.name }}
+                    × {{ item.item.quantity }}
+                </span>
+
+                <strong>
+                    ₹{{ "%.2f"|format(item.subtotal) }}
+                </strong>
+
+            </div>
+
+            {% endfor %}
+
+            <hr>
+
+            <div class="summary-row total">
+
+                <span>Total</span>
+
+                <strong>
+                    ₹{{ "%.2f"|format(total) }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,33 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>E-Commerce Store</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block content %}
 
-<nav>
-    <h2>My E-Commerce</h2>
+<section class="hero">
 
-    <a href="/">Home</a>
-    <a href="/products">Products</a>
-    <a href="/cart">Cart</a>
-    <a href="/orders">Orders</a>
-    <a href="/login">Login</a>
-</nav>
+    <div>
 
-<div class="hero">
+        <span class="badge">
+            NEW COLLECTION
+        </span>
 
-    <h1>Welcome to My E-Commerce Store</h1>
+        <h1>
+            Shop Smarter.<br>
+            Live Better.
+        </h1>
 
-    <p>Buy your favourite products online.</p>
+        <p>
+            Discover premium products at amazing prices.
+        </p>
 
-    <a href="/products">
-        <button>Shop Now</button>
-    </a>
+        <a
+            class="btn"
+            href="{{ url_for('products.product_list') }}"
+        >
+            Explore Products
+        </a>
 
-</div>
+    </div>
 
-</body>
-</html>
+</section>
+
+
+<section class="section">
+
+    <h2>Featured Products</h2>
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/products/' + product.image
+                    ) }}"
+                    onerror="this.src='https://via.placeholder.com/400x300?text=Product'"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <small>
+                    {{ product.category }}
+                </small>
+
+                <h3>
+                    {{ product.name }}
+                </h3>
+
+                <p>
+                    {{ product.description }}
+                </p>
+
+                <div class="product-bottom">
+
+                    <strong>
+                        ₹{{ "%.2f"|format(product.price) }}
+                    </strong>
+
+                    <a
+                        class="small-btn"
+                        href="{{ url_for(
+                            'products.product_details',
+                            id=product.id
+                        ) }}"
+                    >
+                        View
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
